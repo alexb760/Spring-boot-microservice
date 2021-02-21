@@ -1,22 +1,35 @@
 package microservice.book.multiplication.challenge;
 
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
+import microservice.book.multiplication.user.User;
 
 /**
  * @author Alexander Bravo
  */
-@Getter
-@ToString
-@EqualsAndHashCode
+@Entity
+@Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class ChallengeAttempt {
-    private final Long id;
-    private final Long userId;
-    private final int factorA;
-    private final int factorB;
-    private  final int resultAttempt;
-    private final boolean correct;
+    @Id
+    @GeneratedValue
+    private Long id;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "USER_ID")
+    private User user;
+    private int factorA;
+    private int factorB;
+    private int resultAttempt;
+    private boolean correct;
 }
