@@ -4,6 +4,7 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+
 import microservice.book.multiplication.user.User;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -73,6 +74,7 @@ public class ChallengeAttemptControllerTest {
         then(response.getContentAsString()).isEqualTo(
             jsonResultAttempt.write(expectedResponse).getJson());
     }
+
     @Test
     void postInvalidResult() throws Exception {
         // given an attempt with invalid input data

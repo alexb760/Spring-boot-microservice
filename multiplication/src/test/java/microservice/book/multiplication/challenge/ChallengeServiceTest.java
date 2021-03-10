@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import microservice.book.multiplication.challenge.repository.ChallengeAttemptRepository;
+import microservice.book.multiplication.serviceclients.GamificationServiceClient;
 import microservice.book.multiplication.user.User;
 import microservice.book.multiplication.user.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,10 +33,12 @@ public class ChallengeServiceTest {
     private ChallengeAttemptRepository attemptRepository;
     @Mock
     private UserRepository userRepository;
+    @Mock
+    private GamificationServiceClient gameClient;
 
     @BeforeEach
     public void setUp(){
-        challengeService = new ChallengeServiceImpl(attemptRepository, userRepository);
+        challengeService = new ChallengeServiceImpl(attemptRepository, userRepository, gameClient);
     }
 
     @Test
@@ -49,6 +52,7 @@ public class ChallengeServiceTest {
         then(resultAttempt.isCorrect()).isTrue();
         verify(userRepository).save(new User("john_doe"));
         verify(attemptRepository).save(resultAttempt);
+        verify(gameClient).sendAttempt(resultAttempt);
     }
 
     @Test
@@ -67,6 +71,7 @@ public class ChallengeServiceTest {
         then(resultAttempt.getUser()).isEqualTo(existingUser);
         verify(userRepository, never()).save(any());
         verify(attemptRepository).save(resultAttempt);
+        verify(gameClient).sendAttempt(resultAttempt);
     }
 
     @Test
