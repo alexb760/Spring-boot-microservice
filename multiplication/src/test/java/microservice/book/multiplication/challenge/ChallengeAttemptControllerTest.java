@@ -71,9 +71,7 @@ public class ChallengeAttemptControllerTest {
         // then
         then(response.getStatus()).isEqualTo(HttpStatus.OK.value());
         then(response.getContentAsString()).isEqualTo(
-            jsonResultAttempt.write(
-                expectedResponse
-            ).getJson());
+            jsonResultAttempt.write(expectedResponse).getJson());
     }
     @Test
     void postInvalidResult() throws Exception {
