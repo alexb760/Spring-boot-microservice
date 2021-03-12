@@ -20,7 +20,7 @@ public class GameController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
-    void postResult( ChallengeSolvedDTO dto) {
+    void postResult(@RequestBody ChallengeSolvedDTO dto) {
         gameService.newAttemptForUser(dto);
     }
 

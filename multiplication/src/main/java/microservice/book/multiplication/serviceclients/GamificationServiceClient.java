@@ -42,6 +42,8 @@ public class GamificationServiceClient {
                 attempt.getUser().getId(),
                 attempt.getUser().getAlias());
 
+            log.info("Gamification service Payload: {}", dto);
+
             ResponseEntity<String> r = restTemplate.postForEntity(
                 gamificationHostUrl + "/attempts", dto, String.class);
 
@@ -49,6 +51,7 @@ public class GamificationServiceClient {
 
             return r.getStatusCode().is2xxSuccessful();
         } catch (Exception e) {
+            log.error("URL: {}", gamificationHostUrl + "/attempts");
             log.error("There was a problem sending the attempt.", e);
             return false;
         }
