@@ -14,10 +14,14 @@ import org.springframework.web.client.RestTemplate;
  * We use a default {@link RestTemplate} config injected by Spring boot since
  * both are base on Spring Boot.
  *
+ * <p>
+ *     we have deprecated this class since we added event driven design to this project
+ *
  * @author Alexander Bravo
  */
 @Slf4j
-@Service
+//@Service
+@Deprecated
 public class GamificationServiceClient {
 
     private final RestTemplate restTemplate;

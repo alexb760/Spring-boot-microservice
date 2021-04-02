@@ -25,8 +25,8 @@ public class ChallengeAttemptController {
     private final ChallengeService challengeService;
 
     @PostMapping
-    //We should add @Valid anotation in order to make validation works in Spring, otherwise it wont
-    //be reconigzed by Spring
+    //We should add @Valid annotation in order to make validation works in Spring, otherwise it wont
+    //be recognized by Spring
     ResponseEntity<ChallengeAttempt> postResult(@RequestBody @Valid ChallengeAttemptDTO challengeAttemptDTO) {
         return ResponseEntity.ok(challengeService.verifyAttempt(challengeAttemptDTO));
     }

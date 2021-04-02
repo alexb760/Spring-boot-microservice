@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import microservice.book.gamification.challenge.ChallengeSolvedDTO;
+import microservice.book.gamification.challenge.ChallengeSolvedEvent;
 import microservice.book.gamification.game.badgeprocessors.BadgeProcessor;
 import microservice.book.gamification.game.domain.BadgeCard;
 import microservice.book.gamification.game.domain.BadgeType;
@@ -46,7 +47,8 @@ public class GameServiceImpl implements GameService{
                 challenge.getAttemptId());
 
             List<BadgeCard> badgeCards = processForBadges(challenge);
-            return new GameResult(scoreCard.getScore(),
+            return new GameResult(
+                scoreCard.getScore(),
                 badgeCards.stream().map(BadgeCard::getBadgeType)
                     .collect(Collectors.toList()));
         } else {
@@ -57,6 +59,12 @@ public class GameServiceImpl implements GameService{
             return new GameResult(0, List.of());
         }
     }
+
+    @Override
+    public GameResult newAttemptForUser(ChallengeSolvedEvent challenge) {
+        throw new UnsupportedOperationException("Not supported yet");
+    }
+
     /**
      * Checks the total score and the different score cards obtained
      * to give new badges in case their conditions are met.

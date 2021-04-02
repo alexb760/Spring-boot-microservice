@@ -4,10 +4,8 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import microservice.book.multiplication.challenge.repository.ChallengeAttemptRepository;
-import microservice.book.multiplication.serviceclients.GamificationServiceClient;
 import microservice.book.multiplication.user.User;
 import microservice.book.multiplication.user.repository.UserRepository;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 /**
@@ -21,7 +19,9 @@ public class ChallengeServiceImpl implements ChallengeService{
     private final ChallengeAttemptRepository attemptRepository;
     private final UserRepository userRepository;
     //Inject gamification service
-    private final GamificationServiceClient gameClient;
+    // this class has been deprecated since we added event driver using RabbitMqp
+    //private final GamificationServiceClient gameClient;
+    private final ChallengeEventPublisher challengeEventPublisher;
 
     @Override
     public ChallengeAttempt verifyAttempt(ChallengeAttemptDTO attemptDTO) {
@@ -53,10 +53,15 @@ public class ChallengeServiceImpl implements ChallengeService{
         ChallengeAttempt storedAttempt = attemptRepository.save(checkedAttempt);
 
         // Sends the attempt to gamification and prints the response
-        boolean status = gameClient.sendAttempt(storedAttempt);
-        log.info("Gamification service response: {}", status);
+        // we use this method in the imperative with blocking process
+        //boolean status = gameClient.sendAttempt(storedAttempt);
 
-        return checkedAttempt;
+        // Publishes an event to notify potentially interested subscribers
+        challengeEventPublisher.challengeSolved(storedAttempt);
+
+//        log.info("Gamification service response: {}", status);
+
+        return storedAttempt;
     }
 
     @Override

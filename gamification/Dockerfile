@@ -6,8 +6,8 @@
 # run -d -p 8080:8080 springio/gs-spring-boot-docker
 FROM openjdk:15-jdk-alpine
 # Adding a specific user for the execution
-RUN addgroup -S spring && adduser -S spring -G spring
-USER spring:spring
+RUN addgroup -S game && adduser -S game -G game
+USER game:game
 ARG JAR_FILE=target/*.jar
 COPY ${JAR_FILE} app.jar
 ENTRYPOINT ["java","-jar","/app.jar"]

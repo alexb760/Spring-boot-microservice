@@ -3,6 +3,7 @@ package microservice.book.gamification.game;
 import java.util.List;
 import lombok.Value;
 import microservice.book.gamification.challenge.ChallengeSolvedDTO;
+import microservice.book.gamification.challenge.ChallengeSolvedEvent;
 import microservice.book.gamification.game.domain.BadgeType;
 
 /**
@@ -19,6 +20,13 @@ public interface GameService {
      * @return a {@link GameResult} object containing the new score and badge cards obtained
      */
     GameResult newAttemptForUser(ChallengeSolvedDTO challenge);
+
+    /**
+     * process a new attempt for a given user but this event is received from RabbitMQ messages brocker
+     * @param challenge event
+     * @return result
+     */
+    GameResult newAttemptForUser(ChallengeSolvedEvent challenge);
 
     @Value
     class GameResult {
