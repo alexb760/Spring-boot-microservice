@@ -16,6 +16,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.TestPropertySources;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -36,6 +38,7 @@ import org.springframework.test.web.servlet.MockMvc;
 // Thus, it’ll load only the relevant configuration around the controller: validation, serializers,
 // security, error handlers, etc. (see https://tpd.io/test-autoconf for a full list of included auto-configuration classes).
 @WebMvcTest(ChallengeAttemptController.class)
+@TestPropertySource("classpath:/test.properties")
 public class ChallengeAttemptControllerTest {
 
     //@MockBean comes with the Spring Boot Test module and helps you develop proper unit tests
