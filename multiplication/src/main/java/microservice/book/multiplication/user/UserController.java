@@ -22,6 +22,7 @@ public class UserController {
 
     @GetMapping("/{idList}")
     public List<User> getListUserByIdList(@PathVariable final List<Long> idList){
+        log.info("Resolving aliases for users {}", idList);
         return userRepository.findByIdIn(idList);
     }
 }

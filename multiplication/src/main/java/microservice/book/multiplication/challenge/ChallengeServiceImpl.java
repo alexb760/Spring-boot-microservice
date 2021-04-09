@@ -7,6 +7,7 @@ import microservice.book.multiplication.challenge.repository.ChallengeAttemptRep
 import microservice.book.multiplication.user.User;
 import microservice.book.multiplication.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author Alexander Bravo
@@ -23,6 +24,15 @@ public class ChallengeServiceImpl implements ChallengeService{
     //private final GamificationServiceClient gameClient;
     private final ChallengeEventPublisher challengeEventPublisher;
 
+    /**
+     * y making this method transactional we are adding a mechanism to roll back in any exception
+     * being thrown.
+     * This is sort of prevent data inconsistency if save is OK but the publisher throws and error.
+     *
+     * @param attemptDTO DTO object solved challenge
+     * @return solved challenge solved
+     */
+    @Transactional
     @Override
     public ChallengeAttempt verifyAttempt(ChallengeAttemptDTO attemptDTO) {
 

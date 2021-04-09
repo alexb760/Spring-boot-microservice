@@ -1,5 +1,7 @@
+import ServerConstants from './ServerConstants'
+
 class GameApiClient {
-    static SERVER_URL = 'http://localhost:8081';
+    static SERVER_URL = ServerConstants.SERVER_GATEWAY_URL;//'http://localhost:8081';
     static GET_LEADERBOARD = '/leaders';
 
     static leaderBoard(): Promise<Response> {
