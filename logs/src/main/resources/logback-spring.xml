@@ -2,7 +2,14 @@
   <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
     <layout class="ch.qos.logback.classic.PatternLayout">
       <Pattern>
-        [%-15marker] %highlight(%-5level) %msg%n
+       <!-- [%-15marker] %highlight(%-5level) %msg%n-->
+        <!-- Using any old Srping version use -->
+        <!--
+        annotations 'X-B3-TraceId' and X-B3-SpanId have been remove in recent Spring version
+        Now those annotation are aligned with the ones Brave uses natively
+        -->
+        <!-- [%-15marker] [%X{X-B3-TraceId:-},%X{X-B3-SpanId:-}] %highlight(%-5level) %msg%n -->
+        [%-15marker] [%X{traceId:-},%X{spanId:-}] %highlight(%-5level) %msg%n
       </Pattern>
     </layout>
   </appender>
