@@ -80,6 +80,15 @@
 			<artifactId>spring-cloud-starter-consul-config</artifactId>
 		</dependency>
 
+		<!-- looks like from version 2020.0.x we lose bootstrap.properties since
+     it was removed by default. Therefore the app will not able to connect to
+     consul server at the beginning to solve this we can use a ENV. variable or add this Spring.Cloud
+     dependency it seems more clean by adding and also transparent -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-bootstrap</artifactId>
+		</dependency>
+
 	</dependencies>
 
 	<dependencyManagement>

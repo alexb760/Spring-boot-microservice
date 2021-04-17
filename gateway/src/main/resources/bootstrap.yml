@@ -1,8 +1,14 @@
 spring:
   cloud:
     consul:
+      host: localhost
+      port: 8500
       config:
+        enable: true
         data-key: application.yml
         prefix: config
         format: yaml
         default-context: defaults
+logging:
+  level:
+    org.springframework.amqp.rabbit.connection.CachingConnectionFactory: WARN
