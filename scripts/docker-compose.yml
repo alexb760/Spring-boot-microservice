@@ -1,0 +1,82 @@
+version: "3"
+
+services:
+  frontend:
+    image: alexb-io/frontend-app:1.0
+    ports:
+      - '3000:80'
+  # Multiplication container
+  multiplication:
+    image: alexb-io/multiplication
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_CLOUD_CONSUL_HOST=consul
+    depends_on:
+      - rabbitmq-dev
+      - consul-importer
+    networks:
+      - microservices
+# Gamification container
+  gamification:
+    image: alexb-io/gamification
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_CLOUD_CONSUL_HOST=consul
+    depends_on:
+      - rabbitmq-dev
+      - consul-importer
+    networks:
+      - microservices
+# Gateway container
+  gateway:
+    image: alexb-io/gateway
+    ports:
+      - '8000:8000'
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_CLOUD_CONSUL_HOST=consul
+    depends_on:
+      - rabbitmq-dev
+      - consul-importer
+    networks:
+      - microservices
+# Logs Container
+  logs:
+    image: alexb-io/logs
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_CLOUD_CONSUL_HOST=consul
+    depends_on:
+      - rabbitmq-dev
+      - consul-importer
+    networks:
+      - microservices
+# Consul import configurations
+  consul-importer:
+    image: consul-importer:0.1
+    depends_on:
+      - consul-dev
+    networks:
+      - microservices
+  consul-dev:
+    image: consul:1.9.5
+    container_name: consul
+    # The UDP port 8600 is used by Consul nodes to talk to each other, so
+    # it's good to add it here even though we're using a single-node setup.
+    ports:
+      - '8500:8500'
+      - '8600:8600/udp'
+    command: 'agent -dev -node=kingslanding -client=0.0.0.0 -log-level=INFO'
+    networks:
+      - microservices
+  rabbitmq-dev:
+    image: rabbitmq:3.8-management
+    container_name: rabbitmq
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    networks:
+      - microservices
+networks:
+  microservices:
+    driver: bridge
